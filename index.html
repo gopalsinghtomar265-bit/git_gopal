@@ -1,12 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netflix — Clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg:#141414;
+            --muted:#b3b3b3;
+            --red:#e50914;
+            --card-radius:6px;
+            font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%;margin:0;background:var(--bg);color:#fff}
+        a{color:inherit;text-decoration:none}
+
+        /* Header */
+        header{
+            position:fixed;top:0;left:0;right:0;z-index:40;
+            display:flex;align-items:center;justify-content:space-between;
+            padding:18px 36px;background:linear-gradient(180deg,rgba(20,20,20,0.75),rgba(20,20,20,0));
+        }
+        .logo{font-weight:800;letter-spacing:2px;color:var(--red);font-family:'Montserrat',sans-serif;font-size:22px}
+        nav{display:flex;gap:18px;align-items:center}
+        nav a{color:var(--muted);font-size:14px}
+        .actions{display:flex;gap:12px;align-items:center}
+        .btn{background:var(--red);color:#fff;padding:8px 14px;border-radius:4px;font-weight:600;border:none;cursor:pointer}
+        .hamburger{display:none;border:0;background:transparent;color:#fff;font-size:20px}
+
+        /* Hero */
+        .hero{
+            height:72vh;min-height:480px;display:flex;align-items:center;
+            background-image:linear-gradient(90deg,rgba(20,20,20,0.8) 10%, rgba(20,20,20,0.25) 40%, rgba(20,20,20,0.85) 100%),
+                url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1600&q=80');
+            background-size:cover;background-position:center;position:relative;padding:0 6vw;box-shadow:inset 0 -120px 120px rgba(0,0,0,0.6);
+        }
+        .hero-content{max-width:900px}
+        .eyebrow{color:var(--muted);font-weight:500;margin-bottom:14px}
+        h1{font-family:'Montserrat',sans-serif;font-size:clamp(28px,5vw,56px);margin:0 0 18px}
+        p.lead{color:var(--muted);font-size:18px;line-height:1.4;max-width:70%}
+        .cta{margin-top:20px;display:flex;gap:12px;align-items:center}
+        .email-input{display:flex;gap:8px}
+        .email-input input{padding:14px 16px;border-radius:4px;border:0;min-width:260px}
+
+        /* Rows */
+        section.row{padding:30px 6vw}
+        .row h3{margin:6px 0 12px;font-size:18px}
+        .cards{display:flex;gap:12px;overflow:auto;padding-bottom:6px}
+        .card{min-width:160px;height:240px;background:#222;border-radius:var(--card-radius);flex:0 0 auto;position:relative;overflow:hidden;cursor:pointer;transition:transform .28s ease}
+        .card img{width:100%;height:100%;object-fit:cover;display:block}
+        .card:hover{transform:scale(1.12);z-index:5}
+
+        /* Footer */
+        footer{padding:36px 6vw;color:var(--muted);font-size:14px}
+
+        /* Responsive */
+        @media (max-width:900px){
+            nav{display:none}
+            .hamburger{display:block}
+            .hero{padding:0 4vw}
+            .lead{max-width:100%}
+            .card{min-width:130px;height:200px}
+        }
+    </style>
 </head>
 <body>
-    <p> this is a git and github</p>
-    <p> gopal</p>
+    <header>
+        <div style="display:flex;align-items:center;gap:22px">
+            <div class="logo">NETFLIX</div>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">TV Shows</a>
+                <a href="#">Movies</a>
+                <a href="#">Latest</a>
+                <a href="#">My List</a>
+            </nav>
+        </div>
+        <div class="actions">
+            <button class="hamburger" aria-label="menu">☰</button>
+            <a style="color:var(--muted);font-size:14px">English</a>
+            <button class="btn">Sign In</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="eyebrow">New &amp; Popular</div>
+                <h1>Unlimited movies, TV shows, and more.</h1>
+                <p class="lead">Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership.</p>
+
+                <div class="cta">
+                    <div class="email-input">
+                        <input type="email" id="email" placeholder="Email address" aria-label="Email address">
+                        <button class="btn" id="getStarted">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="row">
+            <h3>Trending Now</h3>
+            <div class="cards" id="trending">
+                <!-- sample cards -->
+                <div class="card"><img src="https://images.unsplash.com/photo-1517604931442-3b5f4b1d7f7d?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1505685296765-3a2736de412f?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+            </div>
+        </section>
+
+        <section class="row">
+            <h3>Because you watched</h3>
+            <div class="cards">
+                <div class="card"><img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1533681700317-dedc6b5a1b66?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1502139214986-8f6f3d4b2a1b?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+            </div>
+        </section>
+
+        <section class="row">
+            <h3>Watch it again</h3>
+            <div class="cards">
+                <div class="card"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1504468544074-9f0f4d7d1f3f?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=600&q=60" alt="poster"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="max-width:1100px;margin:0 auto">
+            <p>Questions? Visit the <a href="#">Help Center</a>.</p>
+            <p style="margin-top:12px;color:var(--muted)">This is a UI clone for learning purposes only. No affiliation with Netflix.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Minimal interactivity: open email alert and simple mobile toggle
+        document.getElementById('getStarted').addEventListener('click', function(){
+            const email = document.getElementById('email').value.trim();
+            if(!email) return alert('Please enter an email address to continue.');
+            alert('Thanks — we\'ll send the next steps to ' + email);
+        });
+
+        // Mobile menu toggle (simple)
+        document.querySelector('.hamburger').addEventListener('click', function(){
+            const nav = document.querySelector('nav');
+            if(!nav) return;
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            nav.style.flexDirection = 'column';
+            nav.style.position = 'absolute';
+            nav.style.left = '16px';
+            nav.style.top = '64px';
+            nav.style.background = 'rgba(0,0,0,0.85)';
+            nav.style.padding = '12px';
+            nav.style.borderRadius = '6px';
+        });
+    </script>
 </body>
 </html>
